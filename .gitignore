@@ -1,0 +1,4 @@
+/cartridges/*
+!/cartridges/kentasaito
+/cartridges/kentasaito/*
+!/cartridges/kentasaito/demo
