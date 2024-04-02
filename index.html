@@ -20,9 +20,8 @@ const cartridge = {
   version: url.searchParams.get("version"),
 };
 if (!cartridge.name) {
-  location.href = "?author=kentasaito&name=demo&version=0.0.1";
+  location.href = "?author=kentasaito&name=demo&version=0.0.2";
 }
-console.log("./cartridges/" + cartridge.author + "/" + cartridge.name + "/" + cartridge.version + "/deps.js");
 const Console = (await import("./cartridges/" + cartridge.author + "/" + cartridge.name + "/" + cartridge.version + "/deps.js")).Console;
 await Console.setup({
   cartridge,
