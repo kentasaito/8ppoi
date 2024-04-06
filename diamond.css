@@ -1,0 +1,11 @@
+#pad {
+  width: 100%;
+  top: 20px;
+  display: none;
+  justify-content: space-between;
+}
+
+#pad .diamond {
+  width: 160px;
+  height: 160px;
+}
