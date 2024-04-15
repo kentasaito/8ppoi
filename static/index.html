@@ -1,0 +1,86 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<link rel="stylesheet" href="./css/template.css">
+<link rel="stylesheet" href="./css/console.css">
+
+<div id="header">
+<h2>8ppoi</h2>
+</div>
+
+<div id="fullscreen">
+  <div id="screenContainer">
+    <div id="screen">
+    </div>
+    <div id="captureContainer">
+    </div>
+    <div id="menu">
+      <div class="header">
+        <div id="cartridge"></div>
+      </div>
+      <div class="body">
+        <svg id="start" width="128" height="128" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
+        </svg>
+      </div>
+      <div class="footer">
+        <div></div>
+        <div>
+          <svg id="requestFullscreen" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5"/>
+          </svg>
+          <svg id="exitFullscreen" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M5.5 0a.5.5 0 0 1 .5.5v4A1.5 1.5 0 0 1 4.5 6h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5m5 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 10 4.5v-4a.5.5 0 0 1 .5-.5M0 10.5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 6 11.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5m10 1a1.5 1.5 0 0 1 1.5-1.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="padContainer">
+  <div id="pad">
+    <div class="diamond"></div>
+    <div class="diamond"></div>
+  </div>
+</div>
+
+<div id="contents">
+  <div id="information">
+    <h1 id="cartridgeName"></h1>
+    <h2>
+      <svg width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+      </svg><span id="authorName"></span>
+    </h2>
+  </div>
+  <pre id="instruction">
+  </pre>
+</div>
+
+<div id="footer">
+8ppoi
+</div>
+
+<script type="module">
+import { Ui } from "./js/Ui.js";
+
+globalThis.onpageshow = async () => {
+  const url = new URL(location);
+  const cartridge = {
+    author: url.searchParams.get("author"),
+    name: url.searchParams.get("name"),
+    version: url.searchParams.get("version"),
+  };
+  if (!cartridge.name) {
+    location.href = "?author=kentasaito&name=demo&version=0.0.4";
+  }
+  const information = (await import("./cartridges/" + cartridge.author + "/" + cartridge.name + "/" + cartridge.version + "/information.js")).default;
+  const Console = (await import("./cartridges/" + cartridge.author + "/" + cartridge.name + "/" + cartridge.version + "/deps.js")).Console;
+
+  Ui.setup({ cartridge, information });
+
+  await Console.setup({ cartridge });
+
+  Ui.setupEvents({ Console });
+};
+</script>

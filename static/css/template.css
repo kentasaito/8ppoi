@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#header {
+  background-color: hsl(0, 0%, 80%);
+  color: hsl(0, 0%, 20%);
+}
+
+#footer {
+  background-color: hsl(0, 0%, 20%);
+  color: hsl(0, 0%, 80%);
+  height: 120px;
+}
